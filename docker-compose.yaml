@@ -1,0 +1,10 @@
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_USER: user_lbd
+      MYSQL_PASSWORD: pass_lbd
+      MYSQL_DATABASE: game
+    ports:
+      - "3310:3306"
