@@ -17,8 +17,8 @@ Para isso, o código-fonte foi organizado em **duas branches**, representando o 
 
 | Branch | Descrição |
 |---|---|
-| `main` | Versão original da aplicação, antes da aplicação das premissas de código limpo. |
-| `codigo-limpo` | Versão refatorada, com as 6 premissas aplicadas ao código-fonte. |
+| `versao-original` | Versão original da aplicação, antes da aplicação das premissas de código limpo. |
+| `main` | Versão refatorada, com as 6 premissas aplicadas ao código-fonte. |
 
 A comparação entre as duas versões, premissa por premissa, está detalhada no relatório entregue junto com este trabalho.
 
