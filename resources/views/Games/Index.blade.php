@@ -5,31 +5,39 @@
     <title>Games</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: Tahoma, sans-serif;
             max-width: 700px;
             margin: 40px auto;
             padding: 0 20px;
-            color: #222;
+            color: #0A3323;
+            background-color: #F7F4D5;
         }
-        h1 {
+        h1, h2 {
             text-align: center;
+            color: #0A3323;
         }
         form {
-            background: #f5f5f5;
+            background: #D3968C;
             padding: 20px;
             border-radius: 8px;
             margin-bottom: 30px;
+            color: #0A3323;
         }
         label {
             display: block;
             margin-top: 10px;
             font-weight: bold;
+            color: #0A3323;
         }
-        input, textarea {
+        input, textarea, select {
             width: 100%;
             padding: 8px;
             margin-top: 4px;
             box-sizing: border-box;
+            border: 1px solid #0A3323;
+            border-radius: 4px;
+            background-color: #faf9f0;
+            color: #0A3323;
         }
         .form-buttons {
             margin-top: 15px;
@@ -37,15 +45,22 @@
         button, .btn {
             padding: 8px 16px;
             cursor: pointer;
+            background-color: #105666;
+            color: #F7F4D5;
+            border: none;
+            border-radius: 4px;
         }
         .game-item {
-            border: 1px solid #ddd;
+            background: #839958;
+            color: #F7F4D5;
+            border: 1px solid #0A3323;
             border-radius: 6px;
             padding: 12px;
             margin-bottom: 10px;
         }
         .game-item h3 {
             margin: 0 0 5px 0;
+            color: #0A3323;
         }
         .game-actions {
             margin-top: 8px;
@@ -59,22 +74,27 @@
             padding: 10px;
             border-radius: 6px;
             margin-bottom: 15px;
+            color: #ffffff;
         }
         .alert-success {
-            background: #d4edda;
+            background: #839958;
         }
         .alert-error {
-            background: #f8d7da;
+            background: #D3968C;
         }
         .error {
-            color: red;
+            color: #0A3323;
             font-size: 0.9em;
+            font-weight: bold;
+        }
+        a{
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
 
-    <h1>Games</h1>
+    <h1>Jogos</h1>
 
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
@@ -98,6 +118,15 @@
         <label for="release_date">Data de lançamento</label>
         <input type="date" id="release_date" name="release_date" value="{{ old('release_date', $game->release_date ?? '') }}" required>
 
+        <label for="rating">Nota</label>
+        <select name="rating" id="rating"> 
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+
         @foreach ($errors->all() as $error)
             <div class="error">{{ $error }}</div>
         @endforeach
@@ -110,13 +139,14 @@
         </div>
     </form>
 
-    <h2>Lista de games</h2>
+    <h2>Lista de Jogos</h2>
 
     @forelse ($games as $item)
         <div class="game-item">
             <h3>{{ $item->name }}</h3>
             <p>{{ $item->description }}</p>
             <p><strong>Lançamento:</strong> {{ $item->release_date }}</p>
+            <p><strong>Nota:</strong> {{ $item->rating }}</p>
 
             <div class="game-actions">
                 <a href="{{ route('games.edit', $item->id) }}" class="btn">Editar</a>

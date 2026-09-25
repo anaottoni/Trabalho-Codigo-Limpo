@@ -12,6 +12,7 @@ class GameController extends Controller
     private array $rules = [
         'name'         => 'required|string|max:255',
         'description'  => 'required|string|max:500',
+        'rating'  => 'required|integer|max:5',
         'release_date' => 'required|date',
     ];
 
@@ -64,6 +65,7 @@ class GameController extends Controller
         $game->name = $request->input('name');
         $game->description = $request->input('description');
         $game->release_date = $request->input('release_date');
+        $game->rating = $request->input('rating');
         $game->save();
 
         return redirect()->route('games.index')->with('success', 'Game criado com sucesso!');
@@ -88,6 +90,7 @@ class GameController extends Controller
         $game->name = $request->input('name');
         $game->description = $request->input('description');
         $game->release_date = $request->input('release_date');
+        $game->rating = $request->input('rating');
         $game->save();
 
         return redirect()->route('games.index')->with('success', 'Game atualizado com sucesso!');

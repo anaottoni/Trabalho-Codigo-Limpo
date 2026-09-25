@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->date('release_date');
+            $table->integer('rating');
             $table->timestamps();
         });
     }
