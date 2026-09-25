@@ -118,6 +118,13 @@
         <label for="release_date">Data de lançamento</label>
         <input type="date" id="release_date" name="release_date" value="{{ old('release_date', $game->release_date ?? '') }}" required>
 
+        <label for="category">Categoria</label>
+        <select name="category" id="category"> 
+            @foreach($categories as $category)
+            <option value="{{ $category->id }}">{{ $category->name }}</option>
+            @endforeach
+        </select>
+
         <label for="rating">Nota</label>
         <select name="rating" id="rating"> 
             <option value="1">1</option>
@@ -144,6 +151,7 @@
     @forelse ($games as $item)
         <div class="game-item">
             <h3>{{ $item->name }}</h3>
+            <p><strong>{{ $item->category->name}}</strong></p>
             <p>{{ $item->description }}</p>
             <p><strong>Lançamento:</strong> {{ $item->release_date }}</p>
             <p><strong>Nota:</strong> {{ $item->rating }}</p>
@@ -159,7 +167,7 @@
             </div>
         </div>
     @empty
-        <p>Nenhum game cadastrado.</p>
+        <p>Nenhum jogo cadastrado.</p>
     @endforelse
 
 </body>

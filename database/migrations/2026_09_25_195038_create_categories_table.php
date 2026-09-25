@@ -1,7 +1,6 @@
 <?php
 
 use App\Constants\Table;
-use App\Models\Category;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,13 +12,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create(Table::GAMES, function (Blueprint $table) {
+        Schema::create(Table::CATEGORIES, function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('description');
-            $table->date('release_date');
-            $table->integer('rating');
-            $table->foreignIdFor(Category::class, 'category_id');
             $table->timestamps();
         });
     }
@@ -29,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('games');
+        Schema::dropIfExists('categories');
     }
 };

@@ -15,6 +15,12 @@ class Game extends Model
         'name',
         'description',
         'rating',
-        'release_date'
+        'release_date',
+        'category_id'
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Game;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -33,6 +34,7 @@ class GameController extends Controller
         return view('games.index', [
             'games' => Game::all(),
             'game'  => null, // null = formulário no modo "criar"
+            'categories' => Category::all()
         ]);
     }
 
@@ -48,6 +50,7 @@ class GameController extends Controller
         return view('games.index', [
             'games' => Game::all(),
             'game'  => $game, // preenche o formulário no modo "editar"
+            'categories' => Category::all()
         ]);
     }
 
@@ -66,6 +69,7 @@ class GameController extends Controller
         $game->description = $request->input('description');
         $game->release_date = $request->input('release_date');
         $game->rating = $request->input('rating');
+        $game->category_id = $request->input('category');
         $game->save();
 
         return redirect()->route('games.index')->with('success', 'Game criado com sucesso!');
@@ -91,6 +95,7 @@ class GameController extends Controller
         $game->description = $request->input('description');
         $game->release_date = $request->input('release_date');
         $game->rating = $request->input('rating');
+        $game->category_id = $request->input('category');
         $game->save();
 
         return redirect()->route('games.index')->with('success', 'Game atualizado com sucesso!');
