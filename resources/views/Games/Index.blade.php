@@ -19,7 +19,7 @@
         form {
             background: #D3968C;
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 10px;
             margin-bottom: 30px;
             color: #0A3323;
         }
@@ -34,7 +34,7 @@
             padding: 8px;
             margin-top: 4px;
             box-sizing: border-box;
-            border: 1px solid #0A3323;
+            border: 0px;
             border-radius: 4px;
             background-color: #faf9f0;
             color: #0A3323;
@@ -53,8 +53,7 @@
         .game-item {
             background: #839958;
             color: #F7F4D5;
-            border: 1px solid #0A3323;
-            border-radius: 6px;
+            border-radius: 10px;
             padding: 12px;
             margin-bottom: 10px;
         }
@@ -91,6 +90,7 @@
             text-decoration: none;
         }
     </style>
+    <link rel="icon" href="{{ asset('images/flower.png')}}">
 </head>
 <body>
 
