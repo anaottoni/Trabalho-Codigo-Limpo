@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Exceptions\GameNotFoundException;
 use App\Models\Game;
 
 class GameRepository{
@@ -16,12 +17,8 @@ class GameRepository{
     }
 
     public function update(array $data, int $id){
-        $game = Game::find($id);
-
-        if (!$game) {
-            return redirect()->route('games.index')->with('error', 'Game não encontrado.');
-        }
-        
+        $game = $this->find($id);
+ 
         $game->name = $data['name'];
         $game->description = $data['description'];
         $game->release_date = $data['release_date'];
@@ -32,11 +29,19 @@ class GameRepository{
     }
 
     public function delete (int $id){
-        return Game::destroy($id);
+        $game = $this->find($id);
+        
+        return $game->delete();
     }
 
     public function find (int $id){
-        return $game = Game::find($id);
+        $game = Game::find($id);
+
+        if (!$game){
+            throw new GameNotFoundException();
+        }
+        
+        return $game;
     }
 
     public function listAll(){
