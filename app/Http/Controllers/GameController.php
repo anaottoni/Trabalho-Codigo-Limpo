@@ -2,37 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegisterGameRequest;
+use App\Http\Requests\UpdateGameRequest;
 use App\Models\Category;
-use App\Models\Game;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use App\Repositories\GameRepository;
 
 class GameController extends Controller
 {
-    // regras e mensagens de validação usadas tanto na criação quanto na edição
-    private array $rules = [
-        'name'         => 'required|string|max:255',
-        'description'  => 'required|string|max:500',
-        'rating'  => 'required|integer|max:5',
-        'release_date' => 'required|date',
-    ];
+    private GameRepository $repository;
+    // regras e mensagens de validação usadas tanto na criação quanto na edição 
 
-    private array $messages = [
-        'name.required' => 'O nome do jogo é obrigatório.',
-        'name.string' => 'O nome do jogo deve ser uma string válida.',
-        'name.max' => 'O nome do jogo deve ter no máximo 255 caracteres.',
-        'description.required' => 'A descrição do jogo é obrigatória.',
-        'description.string' => 'A descrição deve ser uma string válida.',
-        'description.max' => 'A descrição deve ter no máximo 500 caracteres.',
-        'release_date.required' => 'A data de lançamento é obrigatória.',
-        'release_date.date' => 'A data de lançamento deve ser uma data válida.',
-    ];
+    public function __construct(GameRepository $repository)
+    {
+        $this->repository = $repository;
+    }
 
     // exibe a página com o formulário de criação e a listagem de games
     public function index()
     {
         return view('games.index', [
-            'games' => Game::all(),
+            'games' => $this->repository->listAll(),
             'game'  => null, // null = formulário no modo "criar"
             'categories' => Category::all()
         ]);
@@ -41,75 +30,52 @@ class GameController extends Controller
     // exibe a mesma página, mas com o formulário preenchido para edição
     public function edit(int $id)
     {
-        $game = Game::find($id);
+        $game = $this->repository->find($id);
 
         if (!$game) {
             return redirect()->route('games.index')->with('error', 'Game não encontrado.');
         }
 
         return view('games.index', [
-            'games' => Game::all(),
+            'games' => $this->repository->listAll(),
             'game'  => $game, // preenche o formulário no modo "editar"
             'categories' => Category::all()
         ]);
     }
 
-    public function store(Request $request)
+    public function store(RegisterGameRequest $request)
     {
-        $validator = Validator::make($request->all(), $this->rules, $this->messages);
+        $validatedData = $request->validated();
 
-        if ($validator->fails()) {
-            return redirect()->route('games.index')
-                ->withErrors($validator)
-                ->withInput();
+        if (!$this->repository->create($validatedData)){
+            return redirect()->back()->withErrors([
+                'Houve um erro ao criar o jogo. tente novamente'
+            ]);
         }
 
-        $game = new Game();
-        $game->name = $request->input('name');
-        $game->description = $request->input('description');
-        $game->release_date = $request->input('release_date');
-        $game->rating = $request->input('rating');
-        $game->category_id = $request->input('category');
-        $game->save();
-
-        return redirect()->route('games.index')->with('success', 'Game criado com sucesso!');
+        return redirect()->route('games.index')->with('success', 'Jogo criado com sucesso!');
     }
 
-    public function update(Request $request, int $id)
+    public function update(UpdateGameRequest $request)
     {
-        $game = Game::find($id);
-
-        if (!$game) {
-            return redirect()->route('games.index')->with('error', 'Game não encontrado.');
+        $validatedData = $request->validated();
+        
+        if (!$this->repository->update($validatedData, $validatedData['id'])){
+            return redirect()->back()->withErrors([
+                'Erro ao salvar dados do jogo'
+            ]);
         }
-
-        $validator = Validator::make($request->all(), $this->rules, $this->messages);
-
-        if ($validator->fails()) {
-            return redirect()->route('games.edit', $id)
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        $game->name = $request->input('name');
-        $game->description = $request->input('description');
-        $game->release_date = $request->input('release_date');
-        $game->rating = $request->input('rating');
-        $game->category_id = $request->input('category');
-        $game->save();
 
         return redirect()->route('games.index')->with('success', 'Game atualizado com sucesso!');
     }
 
     public function delete(int $id)
     {
-        $game = Game::find($id);
-
-        if (!$game) {
+        if (!$this->repository->find($id)) {
             return redirect()->route('games.index')->with('error', 'Game não encontrado.');
         }
 
-        $game->delete();
+        $this->repository->delete($id);
 
         return redirect()->route('games.index')->with('success', 'Game deletado com sucesso!');
     }

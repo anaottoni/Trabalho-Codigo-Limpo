@@ -3,94 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Games</title>
-    <style>
-        body {
-            font-family: Tahoma, sans-serif;
-            max-width: 700px;
-            margin: 40px auto;
-            padding: 0 20px;
-            color: #0A3323;
-            background-color: #F7F4D5;
-        }
-        h1, h2 {
-            text-align: center;
-            color: #0A3323;
-        }
-        form {
-            background: #D3968C;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            color: #0A3323;
-        }
-        label {
-            display: block;
-            margin-top: 10px;
-            font-weight: bold;
-            color: #0A3323;
-        }
-        input, textarea, select {
-            width: 100%;
-            padding: 8px;
-            margin-top: 4px;
-            box-sizing: border-box;
-            border: 0px;
-            border-radius: 4px;
-            background-color: #faf9f0;
-            color: #0A3323;
-        }
-        .form-buttons {
-            margin-top: 15px;
-        }
-        button, .btn {
-            padding: 8px 16px;
-            cursor: pointer;
-            background-color: #105666;
-            color: #F7F4D5;
-            border: none;
-            border-radius: 4px;
-        }
-        .game-item {
-            background: #839958;
-            color: #F7F4D5;
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 10px;
-        }
-        .game-item h3 {
-            margin: 0 0 5px 0;
-            color: #0A3323;
-        }
-        .game-actions {
-            margin-top: 8px;
-        }
-        .game-actions form {
-            display: inline;
-            background: none;
-            padding: 0;
-        }
-        .alert {
-            padding: 10px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            color: #ffffff;
-        }
-        .alert-success {
-            background: #839958;
-        }
-        .alert-error {
-            background: #D3968C;
-        }
-        .error {
-            color: #0A3323;
-            font-size: 0.9em;
-            font-weight: bold;
-        }
-        a{
-            text-decoration: none;
-        }
-    </style>
     <link rel="icon" href="{{ asset('images/flower.png')}}">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
 
@@ -121,17 +35,17 @@
         <label for="category">Categoria</label>
         <select name="category" id="category"> 
             @foreach($categories as $category)
-            <option value="{{ $category->id }}">{{ $category->name }}</option>
+            <option value="{{ $category->id }}" @selected(old('category', $game->category_id ?? '') == $category->id)>{{ $category->name }}</option>
             @endforeach
         </select>
 
         <label for="rating">Nota</label>
         <select name="rating" id="rating"> 
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
+            @for ($i = 1; $i <= 5; $i++)
+                <option value="{{ $i }}" @selected(old('rating', $game->rating ?? '') == $i)>
+                    {{ $i }}
+                </option>
+            @endfor
         </select>
 
         @foreach ($errors->all() as $error)
