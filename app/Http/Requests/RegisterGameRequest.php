@@ -12,9 +12,9 @@ class RegisterGameRequest extends FormRequest
         return [
             'name'         => 'required|string|max:255',
             'description'  => 'required|string|max:500',
-            'rating'  => 'required|integer',
+            'rating'  => 'required|integer|between:1,5',
             'release_date' => 'required|date',
-            'category' => 'required|integer',
+            'category' => 'required|integer|exists:categories,id',
         ];
     }
 

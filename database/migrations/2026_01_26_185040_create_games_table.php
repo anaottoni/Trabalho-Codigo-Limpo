@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('description');
             $table->date('release_date');
             $table->integer('rating');
-            $table->foreignIdFor(Category::class, 'category_id');
+            $table->foreignIdFor(Category::class, 'category_id')->constrained();
             $table->timestamps();
         });
     }
