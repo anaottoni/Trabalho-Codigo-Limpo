@@ -14,16 +14,9 @@ class UpdateGameRequest extends FormRequest
             'rating' => 'required|integer',
             'release_date' => 'required|date',
             'category' => 'required|integer',
-            'id' => 'required|integer'
         ];
     }
 
-    protected function prepareForValidation(): void
-    {
-        $this->merge([
-            'id' => $this->route('id'),
-        ]);
-    }
 
     public function messages():array
     {
@@ -36,6 +29,8 @@ class UpdateGameRequest extends FormRequest
             'description.max' => 'A descrição deve ter no máximo 500 caracteres.',
             'release_date.required' => 'A data de lançamento é obrigatória.',
             'release_date.date' => 'A data de lançamento deve ser uma data válida',
+            'category.required' => 'A categoria é obrigatória',
+            'rating.required' => 'A nota é obrigatória',
         ];
     }
 }

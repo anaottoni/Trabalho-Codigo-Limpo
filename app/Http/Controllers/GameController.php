@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterGameRequest;
 use App\Http\Requests\UpdateGameRequest;
-use App\Models\Category;
 use App\Repositories\GameRepository;
 
 class GameController extends Controller
@@ -21,7 +20,7 @@ class GameController extends Controller
         return view('games.index', [
             'games' => $this->repository->listAll(),
             'game'  => null, 
-            'categories' => Category::all()
+            'categories' => $this->repository->getCategories()
         ]);
     }
 
@@ -32,7 +31,7 @@ class GameController extends Controller
         return view('games.index', [
             'games' => $this->repository->listAll(),
             'game'  => $game, 
-            'categories' => Category::all()
+            'categories' => $this->repository->getCategories()
         ]);
     }
 
@@ -45,16 +44,16 @@ class GameController extends Controller
         return redirect()->route('games.index')->with('success', 'Jogo criado com sucesso!');
     }
 
-    public function update(UpdateGameRequest $request)
+    public function update(UpdateGameRequest $request, int $id)
     {
         $validatedData = $request->validated();
         
-        $this->repository->update($validatedData, $validatedData['id']);
+        $this->repository->update($validatedData, $id);
 
         return redirect()->route('games.index')->with('success', 'Game atualizado com sucesso!');
     }
 
-    public function delete(int $id)
+    public function destroy(int $id)
     {
         $this->repository->delete($id);
 

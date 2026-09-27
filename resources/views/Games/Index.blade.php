@@ -73,7 +73,7 @@
             <div class="game-actions">
                 <a href="{{ route('games.edit', $item->id) }}" class="btn">Editar</a>
 
-                <form action="{{ route('games.delete', $item->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar este game?');">
+                <form action="{{ route('games.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar este game?');">
                     @csrf
                     @method('DELETE')
                     <button type="submit">Deletar</button>

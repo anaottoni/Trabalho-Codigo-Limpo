@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Exceptions\GameNotFoundException;
+use App\Models\Category;
 use App\Models\Game;
 
 class GameRepository{
@@ -46,5 +47,9 @@ class GameRepository{
 
     public function listAll(){
         return Game::all();
+    }
+
+    public function getCategories (){
+        return Category::all();
     }
 }
